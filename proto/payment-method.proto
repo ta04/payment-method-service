@@ -1,0 +1,53 @@
+/*
+Dear Programmers,
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*                                                 *
+*	This file belongs to Kevin Veros Hamonangan   *
+*	and	Fandi Fladimir Dachi and is a part of     *
+*	our	last project as the student of Del        *
+*	Institute of Technology, Sitoluama.           *
+*	Please contact us via Instagram:              *
+*	sleepingnext and fandi_dachi                  *
+*	before copying this file.                     *
+*	Thank you, buddy. 😊                          *
+*                                                 *
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*/
+
+syntax = "proto3";
+
+package com.ta04.srv.payment.method;
+
+message PaymentMethod {
+    int32 id = 1;
+    string name = 2;
+    string account_number = 3;
+    string account_holder_name = 4;
+    string status = 5;
+}
+
+message IndexPaymentMethodsRequest {}
+
+message Response {
+    PaymentMethod payment_method = 1;
+    Error error = 2;
+    repeated PaymentMethod payment_methods = 3;
+}
+
+message Error {
+    string code = 1;
+    string message = 2;
+}
+
+service PaymentMethodService {
+    rpc IndexPaymentMethods(IndexPaymentMethodsRequest) returns (Response) {}
+
+    rpc ShowPaymentMethod(PaymentMethod) returns (Response) {}
+
+    rpc StorePaymentMethod(PaymentMethod) returns (Response) {}
+
+    rpc UpdatePaymentMethod(PaymentMethod) returns (Response) {}
+
+    rpc DestroyPaymentMethod(PaymentMethod) returns (Response) {}
+}
