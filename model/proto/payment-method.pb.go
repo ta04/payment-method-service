@@ -9,6 +9,12 @@ import (
 	math "math"
 )
 
+import (
+	client "github.com/micro/go-micro/client"
+	server "github.com/micro/go-micro/server"
+	context "golang.org/x/net/context"
+)
+
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
 var _ = fmt.Errorf
@@ -91,78 +97,39 @@ func (m *PaymentMethod) GetStatus() string {
 	return ""
 }
 
-type IndexPaymentMethodsRequest struct {
+type GetAllPaymentMethodsRequest struct {
+	Status               string   `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *IndexPaymentMethodsRequest) Reset()         { *m = IndexPaymentMethodsRequest{} }
-func (m *IndexPaymentMethodsRequest) String() string { return proto.CompactTextString(m) }
-func (*IndexPaymentMethodsRequest) ProtoMessage()    {}
-func (*IndexPaymentMethodsRequest) Descriptor() ([]byte, []int) {
+func (m *GetAllPaymentMethodsRequest) Reset()         { *m = GetAllPaymentMethodsRequest{} }
+func (m *GetAllPaymentMethodsRequest) String() string { return proto.CompactTextString(m) }
+func (*GetAllPaymentMethodsRequest) ProtoMessage()    {}
+func (*GetAllPaymentMethodsRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_75a487cb9e3da1e3, []int{1}
 }
 
-func (m *IndexPaymentMethodsRequest) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_IndexPaymentMethodsRequest.Unmarshal(m, b)
+func (m *GetAllPaymentMethodsRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_GetAllPaymentMethodsRequest.Unmarshal(m, b)
 }
-func (m *IndexPaymentMethodsRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_IndexPaymentMethodsRequest.Marshal(b, m, deterministic)
+func (m *GetAllPaymentMethodsRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_GetAllPaymentMethodsRequest.Marshal(b, m, deterministic)
 }
-func (m *IndexPaymentMethodsRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_IndexPaymentMethodsRequest.Merge(m, src)
+func (m *GetAllPaymentMethodsRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetAllPaymentMethodsRequest.Merge(m, src)
 }
-func (m *IndexPaymentMethodsRequest) XXX_Size() int {
-	return xxx_messageInfo_IndexPaymentMethodsRequest.Size(m)
+func (m *GetAllPaymentMethodsRequest) XXX_Size() int {
+	return xxx_messageInfo_GetAllPaymentMethodsRequest.Size(m)
 }
-func (m *IndexPaymentMethodsRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_IndexPaymentMethodsRequest.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_IndexPaymentMethodsRequest proto.InternalMessageInfo
-
-type GetAllPaymentMethodRequest struct {
-	Query                string   `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"`
-	Status               string   `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+func (m *GetAllPaymentMethodsRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetAllPaymentMethodsRequest.DiscardUnknown(m)
 }
 
-func (m *GetAllPaymentMethodRequest) Reset()         { *m = GetAllPaymentMethodRequest{} }
-func (m *GetAllPaymentMethodRequest) String() string { return proto.CompactTextString(m) }
-func (*GetAllPaymentMethodRequest) ProtoMessage()    {}
-func (*GetAllPaymentMethodRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_75a487cb9e3da1e3, []int{2}
-}
+var xxx_messageInfo_GetAllPaymentMethodsRequest proto.InternalMessageInfo
 
-func (m *GetAllPaymentMethodRequest) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_GetAllPaymentMethodRequest.Unmarshal(m, b)
-}
-func (m *GetAllPaymentMethodRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_GetAllPaymentMethodRequest.Marshal(b, m, deterministic)
-}
-func (m *GetAllPaymentMethodRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetAllPaymentMethodRequest.Merge(m, src)
-}
-func (m *GetAllPaymentMethodRequest) XXX_Size() int {
-	return xxx_messageInfo_GetAllPaymentMethodRequest.Size(m)
-}
-func (m *GetAllPaymentMethodRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetAllPaymentMethodRequest.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_GetAllPaymentMethodRequest proto.InternalMessageInfo
-
-func (m *GetAllPaymentMethodRequest) GetQuery() string {
-	if m != nil {
-		return m.Query
-	}
-	return ""
-}
-
-func (m *GetAllPaymentMethodRequest) GetStatus() string {
+func (m *GetAllPaymentMethodsRequest) GetStatus() string {
 	if m != nil {
 		return m.Status
 	}
@@ -180,7 +147,7 @@ func (m *GetOnePaymentMethodRequest) Reset()         { *m = GetOnePaymentMethodR
 func (m *GetOnePaymentMethodRequest) String() string { return proto.CompactTextString(m) }
 func (*GetOnePaymentMethodRequest) ProtoMessage()    {}
 func (*GetOnePaymentMethodRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_75a487cb9e3da1e3, []int{3}
+	return fileDescriptor_75a487cb9e3da1e3, []int{2}
 }
 
 func (m *GetOnePaymentMethodRequest) XXX_Unmarshal(b []byte) error {
@@ -221,7 +188,7 @@ func (m *Response) Reset()         { *m = Response{} }
 func (m *Response) String() string { return proto.CompactTextString(m) }
 func (*Response) ProtoMessage()    {}
 func (*Response) Descriptor() ([]byte, []int) {
-	return fileDescriptor_75a487cb9e3da1e3, []int{4}
+	return fileDescriptor_75a487cb9e3da1e3, []int{3}
 }
 
 func (m *Response) XXX_Unmarshal(b []byte) error {
@@ -264,7 +231,7 @@ func (m *Response) GetPaymentMethods() []*PaymentMethod {
 }
 
 type Error struct {
-	Code                 string   `protobuf:"bytes,1,opt,name=code,proto3" json:"code,omitempty"`
+	Code                 int32    `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
 	Message              string   `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
@@ -275,7 +242,7 @@ func (m *Error) Reset()         { *m = Error{} }
 func (m *Error) String() string { return proto.CompactTextString(m) }
 func (*Error) ProtoMessage()    {}
 func (*Error) Descriptor() ([]byte, []int) {
-	return fileDescriptor_75a487cb9e3da1e3, []int{5}
+	return fileDescriptor_75a487cb9e3da1e3, []int{4}
 }
 
 func (m *Error) XXX_Unmarshal(b []byte) error {
@@ -296,11 +263,11 @@ func (m *Error) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_Error proto.InternalMessageInfo
 
-func (m *Error) GetCode() string {
+func (m *Error) GetCode() int32 {
 	if m != nil {
 		return m.Code
 	}
-	return ""
+	return 0
 }
 
 func (m *Error) GetMessage() string {
@@ -312,42 +279,146 @@ func (m *Error) GetMessage() string {
 
 func init() {
 	proto.RegisterType((*PaymentMethod)(nil), "com.ta04.srv.payment.method.PaymentMethod")
-	proto.RegisterType((*IndexPaymentMethodsRequest)(nil), "com.ta04.srv.payment.method.IndexPaymentMethodsRequest")
-	proto.RegisterType((*GetAllPaymentMethodRequest)(nil), "com.ta04.srv.payment.method.GetAllPaymentMethodRequest")
+	proto.RegisterType((*GetAllPaymentMethodsRequest)(nil), "com.ta04.srv.payment.method.GetAllPaymentMethodsRequest")
 	proto.RegisterType((*GetOnePaymentMethodRequest)(nil), "com.ta04.srv.payment.method.GetOnePaymentMethodRequest")
 	proto.RegisterType((*Response)(nil), "com.ta04.srv.payment.method.Response")
 	proto.RegisterType((*Error)(nil), "com.ta04.srv.payment.method.Error")
 }
 
-func init() { proto.RegisterFile("payment-method.proto", fileDescriptor_75a487cb9e3da1e3) }
+func init() {
+	proto.RegisterFile("payment-method.proto", fileDescriptor_75a487cb9e3da1e3)
+}
 
 var fileDescriptor_75a487cb9e3da1e3 = []byte{
-	// 423 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xbc, 0x54, 0xdd, 0xca, 0xd3, 0x40,
-	0x10, 0x35, 0x69, 0x53, 0xed, 0x94, 0x46, 0xba, 0x0d, 0x12, 0xaa, 0x17, 0x25, 0x50, 0x28, 0xa2,
-	0x8b, 0x54, 0x45, 0x6f, 0x05, 0xc5, 0x1f, 0xb0, 0x6a, 0x82, 0xd7, 0x25, 0x4d, 0x06, 0x13, 0x6d,
-	0xb2, 0xe9, 0xee, 0xa6, 0xb5, 0xaf, 0xe3, 0x7b, 0xf8, 0x46, 0x3e, 0x84, 0x74, 0x93, 0x80, 0x2b,
-	0xfd, 0xc2, 0xd7, 0x8b, 0xaf, 0x77, 0xbb, 0x33, 0x67, 0xcf, 0x39, 0x39, 0x33, 0x04, 0x9c, 0x22,
-	0x3c, 0x64, 0x98, 0xcb, 0xc7, 0x19, 0xca, 0x84, 0xc5, 0xb4, 0xe0, 0x4c, 0x32, 0x72, 0x3f, 0x62,
-	0x19, 0x95, 0xe1, 0x93, 0x67, 0x54, 0xf0, 0x1d, 0xad, 0x21, 0xb4, 0x82, 0x78, 0xbf, 0x0c, 0x18,
-	0x7e, 0xae, 0x4a, 0x1f, 0x55, 0x85, 0xd8, 0x60, 0xa6, 0xb1, 0x6b, 0x4c, 0x8d, 0xb9, 0xe5, 0x9b,
-	0x69, 0x4c, 0x08, 0x74, 0xf3, 0x30, 0x43, 0xd7, 0x9c, 0x1a, 0xf3, 0xbe, 0xaf, 0xce, 0x64, 0x06,
-	0x76, 0x18, 0x45, 0xac, 0xcc, 0xe5, 0x2a, 0x2f, 0xb3, 0x35, 0x72, 0xb7, 0xa3, 0xba, 0xc3, 0xba,
-	0xba, 0x54, 0x45, 0x42, 0x61, 0xdc, 0xc0, 0x12, 0xb6, 0x89, 0x91, 0xaf, 0x14, 0x53, 0x57, 0x61,
-	0x47, 0x75, 0xeb, 0x9d, 0xea, 0x2c, 0x8f, 0xb4, 0xf7, 0xa0, 0x27, 0x64, 0x28, 0x4b, 0xe1, 0x5a,
-	0x0a, 0x52, 0xdf, 0xbc, 0x07, 0x30, 0x79, 0x9f, 0xc7, 0xf8, 0x53, 0x33, 0x2a, 0x7c, 0xdc, 0x96,
-	0x28, 0xa4, 0xf7, 0x01, 0x26, 0x6f, 0x51, 0xbe, 0xda, 0x6c, 0xb4, 0x76, 0xdd, 0x25, 0x0e, 0x58,
-	0xdb, 0x12, 0xf9, 0x41, 0x7d, 0x51, 0xdf, 0xaf, 0x2e, 0xff, 0x28, 0x99, 0x9a, 0xd2, 0x23, 0xc5,
-	0xf5, 0x29, 0xc7, 0x93, 0x5c, 0xff, 0x45, 0xe3, 0xfd, 0x31, 0xe0, 0x8e, 0x8f, 0xa2, 0x60, 0xb9,
-	0x40, 0xf2, 0x05, 0xec, 0x3a, 0xdb, 0x55, 0x95, 0xad, 0x02, 0x0e, 0x16, 0x0f, 0x69, 0x4b, 0xfe,
-	0x54, 0xd7, 0x19, 0x16, 0xda, 0x28, 0x5e, 0x82, 0x85, 0x9c, 0x33, 0xae, 0x4c, 0x0e, 0x16, 0x5e,
-	0x2b, 0xd3, 0x9b, 0x23, 0xd2, 0xaf, 0x1e, 0x90, 0x00, 0xee, 0xea, 0x66, 0x84, 0xdb, 0x99, 0x76,
-	0xce, 0x74, 0x63, 0x6b, 0x6e, 0x84, 0xf7, 0x1c, 0x2c, 0x25, 0x72, 0x5c, 0x89, 0x88, 0xc5, 0x58,
-	0x47, 0xaa, 0xce, 0xc4, 0x85, 0xdb, 0x19, 0x0a, 0x11, 0x7e, 0x6b, 0x36, 0xa5, 0xb9, 0x2e, 0x7e,
-	0x77, 0xc1, 0xd1, 0x88, 0x03, 0xe4, 0xbb, 0x34, 0x42, 0xb2, 0x87, 0xf1, 0x89, 0xb1, 0x92, 0x17,
-	0xad, 0x16, 0xaf, 0x5e, 0x84, 0xc9, 0xac, 0xf5, 0x61, 0x33, 0x28, 0xef, 0x16, 0x49, 0x60, 0x14,
-	0x24, 0x6c, 0xaf, 0xef, 0xfd, 0x19, 0xc9, 0x5c, 0x5f, 0x29, 0x05, 0x12, 0x48, 0xc6, 0xf1, 0x02,
-	0x52, 0xdf, 0x61, 0xfc, 0xb5, 0x88, 0x43, 0x79, 0x09, 0xad, 0x1f, 0xe0, 0xbc, 0x46, 0x21, 0x39,
-	0x3b, 0xdc, 0xbc, 0xd8, 0xba, 0xa7, 0x7e, 0x63, 0x4f, 0xff, 0x06, 0x00, 0x00, 0xff, 0xff, 0x09,
-	0xea, 0x5a, 0x15, 0xde, 0x04, 0x00, 0x00,
+	// 395 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xbc, 0x54, 0xd1, 0x6a, 0xe2, 0x40,
+	0x14, 0xdd, 0x18, 0xe3, 0xee, 0x5e, 0x31, 0xcb, 0x8e, 0x22, 0x41, 0x5f, 0x24, 0x20, 0xc8, 0xb2,
+	0x3b, 0x2c, 0xee, 0x2e, 0xeb, 0x6b, 0x29, 0xc5, 0xbe, 0xd4, 0xb6, 0x91, 0x3e, 0x4b, 0x4c, 0x2e,
+	0x55, 0x30, 0x99, 0x74, 0x66, 0x62, 0xf1, 0x77, 0xfa, 0x75, 0x7d, 0xe8, 0x47, 0x94, 0x4c, 0x12,
+	0xe8, 0xb4, 0x36, 0xad, 0x2f, 0x7d, 0x9b, 0xb9, 0xf7, 0x9c, 0x7b, 0x6e, 0xce, 0x09, 0x03, 0x9d,
+	0xc4, 0xdf, 0x45, 0x18, 0xcb, 0x5f, 0x11, 0xca, 0x15, 0x0b, 0x69, 0xc2, 0x99, 0x64, 0xa4, 0x1f,
+	0xb0, 0x88, 0x4a, 0xff, 0xf7, 0x5f, 0x2a, 0xf8, 0x96, 0x16, 0x10, 0x9a, 0x43, 0xdc, 0x3b, 0x03,
+	0x5a, 0x17, 0x79, 0xe9, 0x4c, 0x55, 0x88, 0x0d, 0xb5, 0x75, 0xe8, 0x18, 0x03, 0x63, 0x64, 0x79,
+	0xb5, 0x75, 0x48, 0x08, 0xd4, 0x63, 0x3f, 0x42, 0xa7, 0x36, 0x30, 0x46, 0x5f, 0x3d, 0x75, 0x26,
+	0x43, 0xb0, 0xfd, 0x20, 0x60, 0x69, 0x2c, 0x17, 0x71, 0x1a, 0x2d, 0x91, 0x3b, 0xa6, 0xea, 0xb6,
+	0x8a, 0xea, 0x4c, 0x15, 0x09, 0x85, 0x76, 0x09, 0x5b, 0xb1, 0x4d, 0x88, 0x7c, 0xa1, 0x26, 0xd5,
+	0x15, 0xf6, 0x7b, 0xd1, 0x3a, 0x55, 0x9d, 0x59, 0x36, 0xb6, 0x0b, 0x0d, 0x21, 0x7d, 0x99, 0x0a,
+	0xc7, 0x52, 0x90, 0xe2, 0xe6, 0xfe, 0x83, 0xfe, 0x14, 0xe5, 0xd1, 0x66, 0xa3, 0x6d, 0x2a, 0x3c,
+	0xbc, 0x49, 0x51, 0xc8, 0x27, 0x34, 0x43, 0xa3, 0xfd, 0x84, 0xde, 0x14, 0xe5, 0x79, 0x8c, 0x1a,
+	0xad, 0x64, 0x3d, 0xfb, 0x4e, 0xf7, 0xc1, 0x80, 0x2f, 0x1e, 0x8a, 0x84, 0xc5, 0x02, 0xc9, 0x25,
+	0xd8, 0x85, 0x51, 0x8b, 0xdc, 0x28, 0x05, 0x6c, 0x8e, 0x7f, 0xd0, 0x0a, 0x33, 0xa9, 0xae, 0xd3,
+	0x4a, 0x34, 0x5f, 0x27, 0x60, 0x21, 0xe7, 0x8c, 0x2b, 0x23, 0x9b, 0x63, 0xb7, 0x72, 0xd2, 0x49,
+	0x86, 0xf4, 0x72, 0x02, 0x99, 0xc3, 0x37, 0x7d, 0x19, 0xe1, 0x98, 0x03, 0xf3, 0xc0, 0x6d, 0x6c,
+	0x6d, 0x9b, 0xcc, 0x53, 0x4b, 0x89, 0x64, 0xf9, 0x06, 0x2c, 0xc4, 0xc2, 0x09, 0x75, 0x26, 0x0e,
+	0x7c, 0x8e, 0x50, 0x08, 0xff, 0xba, 0x8c, 0xbd, 0xbc, 0x8e, 0xef, 0x4d, 0xe8, 0x68, 0x83, 0xe7,
+	0xc8, 0xb7, 0xeb, 0x00, 0xc9, 0x0e, 0x3a, 0xfb, 0x32, 0x22, 0x93, 0xca, 0x1d, 0x2b, 0x62, 0xed,
+	0x0d, 0x2b, 0x99, 0x65, 0x54, 0xee, 0x27, 0x72, 0x0b, 0xed, 0x3d, 0x39, 0x93, 0xff, 0x6f, 0x29,
+	0xbf, 0xf2, 0x67, 0xbc, 0x5f, 0x38, 0x82, 0xee, 0x31, 0x47, 0x5f, 0xe2, 0x0b, 0xed, 0x03, 0x92,
+	0x39, 0x48, 0xee, 0x2a, 0x09, 0x3f, 0x4a, 0x6e, 0xd9, 0x50, 0xcf, 0xc7, 0x9f, 0xc7, 0x00, 0x00,
+	0x00, 0xff, 0xff, 0xa4, 0xf3, 0xde, 0x95, 0x56, 0x04, 0x00, 0x00,
+}
+
+// Reference imports to suppress errors if they are not otherwise used.
+var _ context.Context
+var _ client.Option
+var _ server.Option
+
+// Client API for PaymentMethodService service
+
+type PaymentMethodServiceClient interface {
+	GetAllPaymentMethods(ctx context.Context, in *GetAllPaymentMethodsRequest, opts ...client.CallOption) (*Response, error)
+	GetOnePaymentMethod(ctx context.Context, in *GetOnePaymentMethodRequest, opts ...client.CallOption) (*Response, error)
+	CreateOnePaymentMethod(ctx context.Context, in *PaymentMethod, opts ...client.CallOption) (*Response, error)
+	UpdateOnePaymentMethod(ctx context.Context, in *PaymentMethod, opts ...client.CallOption) (*Response, error)
+}
+
+type paymentMethodServiceClient struct {
+	c           client.Client
+	serviceName string
+}
+
+func NewPaymentMethodServiceClient(serviceName string, c client.Client) PaymentMethodServiceClient {
+	if c == nil {
+		c = client.NewClient()
+	}
+	if len(serviceName) == 0 {
+		serviceName = "com.ta04.srv.payment.method"
+	}
+	return &paymentMethodServiceClient{
+		c:           c,
+		serviceName: serviceName,
+	}
+}
+
+func (c *paymentMethodServiceClient) GetAllPaymentMethods(ctx context.Context, in *GetAllPaymentMethodsRequest, opts ...client.CallOption) (*Response, error) {
+	req := c.c.NewRequest(c.serviceName, "PaymentMethodService.GetAllPaymentMethods", in)
+	out := new(Response)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *paymentMethodServiceClient) GetOnePaymentMethod(ctx context.Context, in *GetOnePaymentMethodRequest, opts ...client.CallOption) (*Response, error) {
+	req := c.c.NewRequest(c.serviceName, "PaymentMethodService.GetOnePaymentMethod", in)
+	out := new(Response)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *paymentMethodServiceClient) CreateOnePaymentMethod(ctx context.Context, in *PaymentMethod, opts ...client.CallOption) (*Response, error) {
+	req := c.c.NewRequest(c.serviceName, "PaymentMethodService.CreateOnePaymentMethod", in)
+	out := new(Response)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *paymentMethodServiceClient) UpdateOnePaymentMethod(ctx context.Context, in *PaymentMethod, opts ...client.CallOption) (*Response, error) {
+	req := c.c.NewRequest(c.serviceName, "PaymentMethodService.UpdateOnePaymentMethod", in)
+	out := new(Response)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// Server API for PaymentMethodService service
+
+type PaymentMethodServiceHandler interface {
+	GetAllPaymentMethods(context.Context, *GetAllPaymentMethodsRequest, *Response) error
+	GetOnePaymentMethod(context.Context, *GetOnePaymentMethodRequest, *Response) error
+	CreateOnePaymentMethod(context.Context, *PaymentMethod, *Response) error
+	UpdateOnePaymentMethod(context.Context, *PaymentMethod, *Response) error
+}
+
+func RegisterPaymentMethodServiceHandler(s server.Server, hdlr PaymentMethodServiceHandler, opts ...server.HandlerOption) {
+	s.Handle(s.NewHandler(&PaymentMethodService{hdlr}, opts...))
+}
+
+type PaymentMethodService struct {
+	PaymentMethodServiceHandler
+}
+
+func (h *PaymentMethodService) GetAllPaymentMethods(ctx context.Context, in *GetAllPaymentMethodsRequest, out *Response) error {
+	return h.PaymentMethodServiceHandler.GetAllPaymentMethods(ctx, in, out)
+}
+
+func (h *PaymentMethodService) GetOnePaymentMethod(ctx context.Context, in *GetOnePaymentMethodRequest, out *Response) error {
+	return h.PaymentMethodServiceHandler.GetOnePaymentMethod(ctx, in, out)
+}
+
+func (h *PaymentMethodService) CreateOnePaymentMethod(ctx context.Context, in *PaymentMethod, out *Response) error {
+	return h.PaymentMethodServiceHandler.CreateOnePaymentMethod(ctx, in, out)
+}
+
+func (h *PaymentMethodService) UpdateOnePaymentMethod(ctx context.Context, in *PaymentMethod, out *Response) error {
+	return h.PaymentMethodServiceHandler.UpdateOnePaymentMethod(ctx, in, out)
 }

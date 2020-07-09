@@ -27,14 +27,11 @@ message PaymentMethod {
     string status = 5;
 }
 
-message IndexPaymentMethodsRequest {}
-
-message GetAllPaymentMethodRequest{
-    string query = 1;
-    string status = 2;
+message GetAllPaymentMethodsRequest {
+    string status = 1;
 }
 
-message GetOnePaymentMethodRequest{
+message GetOnePaymentMethodRequest {
     int32 id = 1;
 }
 
@@ -45,18 +42,20 @@ message Response {
 }
 
 message Error {
-    string code = 1;
+    int32 code = 1;
     string message = 2;
 }
 
 service PaymentMethodService {
-    rpc IndexPaymentMethods(IndexPaymentMethodsRequest) returns (Response) {}
+    rpc GetAllPaymentMethods (GetAllPaymentMethodsRequest) returns (Response) {
+    }
 
-    rpc ShowPaymentMethod(PaymentMethod) returns (Response) {}
+    rpc GetOnePaymentMethod (GetOnePaymentMethodRequest) returns (Response) {
+    }
 
-    rpc StorePaymentMethod(PaymentMethod) returns (Response) {}
+    rpc CreateOnePaymentMethod (PaymentMethod) returns (Response) {
+    }
 
-    rpc UpdatePaymentMethod(PaymentMethod) returns (Response) {}
-
-    rpc DestroyPaymentMethod(PaymentMethod) returns (Response) {}
+    rpc UpdateOnePaymentMethod (PaymentMethod) returns (Response) {
+    }
 }

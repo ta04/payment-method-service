@@ -21,7 +21,7 @@ import (
 	"database/sql"
 	"fmt"
 
-	paymentMethodPB "github.com/ta04/payment-method-service/model/proto"
+	proto "github.com/ta04/payment-method-service/model/proto"
 )
 
 // Postgres is the implementor of Postgres interface
@@ -29,13 +29,21 @@ type Postgres struct {
 	DB *sql.DB
 }
 
-// Index indexes all active payment methods
-func (repo *Postgres) Index(request *paymentMethodPB.IndexPaymentMethodsRequest) (paymentMethods []*paymentMethodPB.PaymentMethod, err error) {
+// NewPostgres will create a new postgres instance
+func NewPostgres(db *sql.DB) *Postgres {
+	return &Postgres{
+		DB: db,
+	}
+}
+
+// GetAll will get all payment methods
+func (postgres *Postgres) GetAll(request *proto.GetAllPaymentMethodsRequest) ([]*proto.PaymentMethod, error) {
 	var id int32
 	var name, accountNumber, accountHolderName, status string
+	var paymentMethods []*proto.PaymentMethod
 
-	query := "SELECT * FROM payment_methods WHERE status = 'active'"
-	rows, err := repo.DB.Query(query)
+	query := fmt.Sprintf("SELECT * FROM payment_methods WHERE status = '%s'", request.Status)
+	rows, err := postgres.DB.Query(query)
 	if err != nil {
 		return nil, err
 	}
@@ -45,7 +53,7 @@ func (repo *Postgres) Index(request *paymentMethodPB.IndexPaymentMethodsRequest)
 		if err != nil {
 			return nil, err
 		}
-		paymentMethod := &paymentMethodPB.PaymentMethod{
+		paymentMethod := &proto.PaymentMethod{
 			Id:                id,
 			Name:              name,
 			AccountNumber:     accountNumber,
@@ -58,18 +66,18 @@ func (repo *Postgres) Index(request *paymentMethodPB.IndexPaymentMethodsRequest)
 	return paymentMethods, err
 }
 
-// Show shows an active payment method by id
-func (repo *Postgres) Show(request *paymentMethodPB.PaymentMethod) (*paymentMethodPB.PaymentMethod, error) {
+// GetOne will get a payment method by id
+func (postgres *Postgres) GetOne(request *proto.GetOnePaymentMethodRequest) (*proto.PaymentMethod, error) {
 	var id int32
 	var name, accountNumber, accountHolderName, status string
 
-	query := fmt.Sprintf("SELECT * FROM payment_methods WHERE id = %d AND status = 'active'", request.Id)
-	err := repo.DB.QueryRow(query).Scan(&id, &name, &accountNumber, &accountHolderName, &status)
+	query := fmt.Sprintf("SELECT * FROM payment_methods WHERE id = %d", request.Id)
+	err := postgres.DB.QueryRow(query).Scan(&id, &name, &accountNumber, &accountHolderName, &status)
 	if err != nil {
 		return nil, err
 	}
 
-	return &paymentMethodPB.PaymentMethod{
+	return &proto.PaymentMethod{
 		Id:                id,
 		Name:              name,
 		AccountNumber:     accountNumber,

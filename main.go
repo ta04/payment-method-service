@@ -26,8 +26,9 @@ import (
 	"github.com/ta04/payment-method-service/delivery/rpc/handler"
 	"github.com/ta04/payment-method-service/internal/config"
 	"github.com/ta04/payment-method-service/internal/database"
-	paymentMethodPB "github.com/ta04/payment-method-service/model/proto"
+	proto "github.com/ta04/payment-method-service/model/proto"
 	"github.com/ta04/payment-method-service/repository/postgres"
+	usecase "github.com/ta04/payment-method-service/usecase/v1"
 )
 
 func main() {
@@ -49,10 +50,12 @@ func main() {
 	}
 	defer db.Close()
 
-	h := handler.NewHandler(&postgres.Postgres{
-		DB: db,
-	})
-	paymentMethodPB.RegisterPaymentMethodServiceHandler(s.Server(), h)
+	p := postgres.NewPostgres(db)
+
+	u := usecase.NewUsecase(p)
+
+	h := handler.NewHandler(u)
+	proto.RegisterPaymentMethodServiceHandler(s.Server(), h)
 
 	err = s.Run()
 	if err != nil {

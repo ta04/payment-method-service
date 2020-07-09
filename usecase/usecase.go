@@ -18,15 +18,14 @@ Dear Programmers,
 package usecase
 
 import (
-	paymentMethodPB "github.com/ta04/payment-method-service/model/proto"
+	proto "github.com/ta04/payment-method-service/model/proto"
 )
 
 // Repository is the interface of repositories.
 // As there are number of repositories can be used.
-type Repository interface {
-	Index(request *paymentMethodPB.IndexPaymentMethodsRequest) ([]*paymentMethodPB.PaymentMethod, error)
-	Show(request *paymentMethodPB.PaymentMethod) (*paymentMethodPB.PaymentMethod, error)
-	Store(paymentMethod *paymentMethodPB.PaymentMethod) (*paymentMethodPB.PaymentMethod, error)
-	Update(paymentMethod *paymentMethodPB.PaymentMethod) (*paymentMethodPB.PaymentMethod, error)
-	Destroy(paymentMethod *paymentMethodPB.PaymentMethod) (*paymentMethodPB.PaymentMethod, error)
+type Usecase interface {
+	GetAll(request *proto.GetAllPaymentMethodsRequest) ([]*proto.PaymentMethod, *proto.Error)
+	GetOne(request *proto.GetOnePaymentMethodRequest) (*proto.PaymentMethod, *proto.Error)
+	CreateOne(paymentMethod *proto.PaymentMethod) (*proto.PaymentMethod, *proto.Error)
+	UpdateOne(paymentMethod *proto.PaymentMethod) (*proto.PaymentMethod, *proto.Error)
 }

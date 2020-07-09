@@ -19,41 +19,48 @@ package handler
 
 import (
 	"context"
+	"errors"
 
-	paymentMethodPB "github.com/ta04/payment-method-service/model/proto"
+	proto "github.com/ta04/payment-method-service/model/proto"
 	"github.com/ta04/payment-method-service/usecase"
 )
 
 // Handler is the handler of payment method service
 type Handler struct {
-	UseCase usecase.Usecase
+	Usecase usecase.Usecase
 }
 
-// NewHandler creates a new payment method service handler
+// NewHandler will create a new payment method handler
 func NewHandler(usecase usecase.Usecase) *Handler {
 	return &Handler{
-		UseCase: usecase,
+		Usecase: usecase,
 	}
 }
 
-// IndexPaymentMethods indexes the payment methods
-func (handler *Handler) IndexPaymentMethods(ctx context.Context, req *paymentMethodPB.IndexPaymentMethodsRequest, res *paymentMethodPB.Response) error {
-	paymentMethods, err := handler.Usecase.Index(req)
+// GetAllPaymentMethods will get all payment methods
+func (handler *Handler) GetAllPaymentMethods(ctx context.Context, req *proto.GetAllPaymentMethodsRequest, res *proto.Response) error {
+	paymentMethods, err := handler.Usecase.GetAll(req)
 	if err != nil {
-		return err
+		res.PaymentMethods = nil
+		res.Error = err
+
+		return errors.New(err.Message)
 	}
 
 	res.PaymentMethods = paymentMethods
 	res.Error = nil
 
-	return err
+	return nil
 }
 
-// ShowPaymentMethod shows a payment method by ID
-func (handler *Handler) ShowPaymentMethod(ctx context.Context, req *paymentMethodPB.PaymentMethod, res *paymentMethodPB.Response) error {
-	paymentMethod, err := handler.Usecase.Show(req)
+// GetOnePaymentMethod will get a payment method
+func (handler *Handler) GetOnePaymentMethod(ctx context.Context, req *proto.GetOnePaymentMethodRequest, res *proto.Response) error {
+	paymentMethod, err := handler.Usecase.GetOne(req)
 	if err != nil {
-		return err
+		res.PaymentMethods = nil
+		res.Error = err
+
+		return errors.New(err.Message)
 	}
 
 	res.PaymentMethod = paymentMethod
@@ -62,24 +69,14 @@ func (handler *Handler) ShowPaymentMethod(ctx context.Context, req *paymentMetho
 	return nil
 }
 
-// StorePaymentMethod stores a new payment method
-func (handler *Handler) StorePaymentMethod(ctx context.Context, req *paymentMethodPB.PaymentMethod, res *paymentMethodPB.Response) error {
-	paymentMethod, err := handler.Usecase.Store(req)
+// CreateOnePaymentMethod will create a new payment method
+func (handler *Handler) CreateOnePaymentMethod(ctx context.Context, req *proto.PaymentMethod, res *proto.Response) error {
+	paymentMethod, err := handler.Usecase.CreateOne(req)
 	if err != nil {
-		return err
-	}
+		res.PaymentMethods = nil
+		res.Error = err
 
-	res.PaymentMethod = paymentMethod
-	res.Error = nil
-
-	return err
-}
-
-// UpdatePaymentMethod updates a payment method
-func (handler *Handler) UpdatePaymentMethod(ctx context.Context, req *paymentMethodPB.PaymentMethod, res *paymentMethodPB.Response) error {
-	paymentMethod, err := handler.Usecase.Update(req)
-	if err != nil {
-		return err
+		return errors.New(err.Message)
 	}
 
 	res.PaymentMethod = paymentMethod
@@ -88,15 +85,19 @@ func (handler *Handler) UpdatePaymentMethod(ctx context.Context, req *paymentMet
 	return nil
 }
 
-// DestroyPaymentMethod destroys an payment methods
-func (handler *Handler) DestroyPaymentMethod(ctx context.Context, req *paymentMethodPB.PaymentMethod, res *paymentMethodPB.Response) error {
-	paymentMethod, err := handler.Usecase.Destroy(req)
+// UpdateOnePaymentMethod will update a payment method
+func (handler *Handler) UpdateOnePaymentMethod(ctx context.Context, req *proto.PaymentMethod, res *proto.Response) error {
+	paymentMethod, err := handler.Usecase.UpdateOne(req)
 	if err != nil {
-		return err
+		res.PaymentMethods = nil
+		res.Error = err
+
+		return errors.New(err.Message)
 	}
 
 	res.PaymentMethod = paymentMethod
 	res.Error = nil
 
-	return err
+	return nil
 }
+

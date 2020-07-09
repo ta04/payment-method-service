@@ -18,15 +18,14 @@ Dear Programmers,
 package repository
 
 import (
-	paymentMethodPB "github.com/ta04/payment-method-service/model/proto"
+	proto "github.com/ta04/payment-method-service/model/proto"
 )
 
 // Repository is the interface of repositories.
 // As there are number of repositories can be used.
 type Repository interface {
-	Index(request *paymentMethodPB.IndexPaymentMethodsRequest) ([]*paymentMethodPB.PaymentMethod, error)
-	Show(request *paymentMethodPB.PaymentMethod) (*paymentMethodPB.PaymentMethod, error)
-	Store(paymentMethod *paymentMethodPB.PaymentMethod) (*paymentMethodPB.PaymentMethod, error)
-	Update(paymentMethod *paymentMethodPB.PaymentMethod) (*paymentMethodPB.PaymentMethod, error)
-	Destroy(paymentMethod *paymentMethodPB.PaymentMethod) (*paymentMethodPB.PaymentMethod, error)
+	GetAll(request *proto.GetAllPaymentMethodsRequest) ([]*proto.PaymentMethod, error)
+	GetOne(request *proto.GetOnePaymentMethodRequest) (*proto.PaymentMethod, error)
+	CreateOne(paymentMethod *proto.PaymentMethod) (*proto.PaymentMethod, error)
+	UpdateOne(paymentMethod *proto.PaymentMethod) (*proto.PaymentMethod, error)
 }
