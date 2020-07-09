@@ -15,7 +15,7 @@ Dear Programmers,
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-package repository
+package usecase
 
 import (
 	paymentMethodPB "github.com/ta04/payment-method-service/model/proto"

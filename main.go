@@ -23,10 +23,10 @@ import (
 	_ "github.com/lib/pq"
 	"github.com/micro/go-micro"
 	"github.com/micro/go-plugins/registry/consul"
-	"github.com/ta04/payment-method-service/config"
-	"github.com/ta04/payment-method-service/database"
-	"github.com/ta04/payment-method-service/handler"
-	paymentMethodPB "github.com/ta04/payment-method-service/proto"
+	"github.com/ta04/payment-method-service/delivery/rpc/handler"
+	"github.com/ta04/payment-method-service/internal/config"
+	"github.com/ta04/payment-method-service/internal/database"
+	paymentMethodPB "github.com/ta04/payment-method-service/model/proto"
 	"github.com/ta04/payment-method-service/repository/postgres"
 )
 

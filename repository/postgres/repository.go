@@ -20,7 +20,7 @@ package postgres
 import (
 	"fmt"
 
-	paymentMethodPB "github.com/ta04/payment-method-service/proto"
+	paymentMethodPB "github.com/ta04/payment-method-service/model/proto"
 )
 
 // Store stores a new payment method

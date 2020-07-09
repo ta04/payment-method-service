@@ -29,6 +29,15 @@ message PaymentMethod {
 
 message IndexPaymentMethodsRequest {}
 
+message GetAllPaymentMethodRequest{
+    string query = 1;
+    string status = 2;
+}
+
+message GetOnePaymentMethodRequest{
+    int32 id = 1;
+}
+
 message Response {
     PaymentMethod payment_method = 1;
     Error error = 2;

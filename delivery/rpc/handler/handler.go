@@ -20,25 +20,25 @@ package handler
 import (
 	"context"
 
-	paymentMethodPB "github.com/ta04/payment-method-service/proto"
-	paymentMethodRepo "github.com/ta04/payment-method-service/repository"
+	paymentMethodPB "github.com/ta04/payment-method-service/model/proto"
+	"github.com/ta04/payment-method-service/usecase"
 )
 
 // Handler is the handler of payment method service
 type Handler struct {
-	repository paymentMethodRepo.Repository
+	UseCase usecase.Usecase
 }
 
 // NewHandler creates a new payment method service handler
-func NewHandler(repo paymentMethodRepo.Repository) *Handler {
+func NewHandler(usecase usecase.Usecase) *Handler {
 	return &Handler{
-		repository: repo,
+		UseCase: usecase,
 	}
 }
 
 // IndexPaymentMethods indexes the payment methods
-func (h *Handler) IndexPaymentMethods(ctx context.Context, req *paymentMethodPB.IndexPaymentMethodsRequest, res *paymentMethodPB.Response) error {
-	paymentMethods, err := h.repository.Index(req)
+func (handler *Handler) IndexPaymentMethods(ctx context.Context, req *paymentMethodPB.IndexPaymentMethodsRequest, res *paymentMethodPB.Response) error {
+	paymentMethods, err := handler.Usecase.Index(req)
 	if err != nil {
 		return err
 	}
@@ -50,8 +50,8 @@ func (h *Handler) IndexPaymentMethods(ctx context.Context, req *paymentMethodPB.
 }
 
 // ShowPaymentMethod shows a payment method by ID
-func (h *Handler) ShowPaymentMethod(ctx context.Context, req *paymentMethodPB.PaymentMethod, res *paymentMethodPB.Response) error {
-	paymentMethod, err := h.repository.Show(req)
+func (handler *Handler) ShowPaymentMethod(ctx context.Context, req *paymentMethodPB.PaymentMethod, res *paymentMethodPB.Response) error {
+	paymentMethod, err := handler.Usecase.Show(req)
 	if err != nil {
 		return err
 	}
@@ -63,8 +63,8 @@ func (h *Handler) ShowPaymentMethod(ctx context.Context, req *paymentMethodPB.Pa
 }
 
 // StorePaymentMethod stores a new payment method
-func (h *Handler) StorePaymentMethod(ctx context.Context, req *paymentMethodPB.PaymentMethod, res *paymentMethodPB.Response) error {
-	paymentMethod, err := h.repository.Store(req)
+func (handler *Handler) StorePaymentMethod(ctx context.Context, req *paymentMethodPB.PaymentMethod, res *paymentMethodPB.Response) error {
+	paymentMethod, err := handler.Usecase.Store(req)
 	if err != nil {
 		return err
 	}
@@ -76,8 +76,8 @@ func (h *Handler) StorePaymentMethod(ctx context.Context, req *paymentMethodPB.P
 }
 
 // UpdatePaymentMethod updates a payment method
-func (h *Handler) UpdatePaymentMethod(ctx context.Context, req *paymentMethodPB.PaymentMethod, res *paymentMethodPB.Response) error {
-	paymentMethod, err := h.repository.Update(req)
+func (handler *Handler) UpdatePaymentMethod(ctx context.Context, req *paymentMethodPB.PaymentMethod, res *paymentMethodPB.Response) error {
+	paymentMethod, err := handler.Usecase.Update(req)
 	if err != nil {
 		return err
 	}
@@ -89,8 +89,8 @@ func (h *Handler) UpdatePaymentMethod(ctx context.Context, req *paymentMethodPB.
 }
 
 // DestroyPaymentMethod destroys an payment methods
-func (h *Handler) DestroyPaymentMethod(ctx context.Context, req *paymentMethodPB.PaymentMethod, res *paymentMethodPB.Response) error {
-	paymentMethod, err := h.repository.Destroy(req)
+func (handler *Handler) DestroyPaymentMethod(ctx context.Context, req *paymentMethodPB.PaymentMethod, res *paymentMethodPB.Response) error {
+	paymentMethod, err := handler.Usecase.Destroy(req)
 	if err != nil {
 		return err
 	}
