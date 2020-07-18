@@ -30,12 +30,18 @@ func (usecase *Usecase) GetAll(request *proto.GetAllPaymentMethodsRequest) (*[]*
 	var paymentMethod *[]*proto.PaymentMethod
 	var err error
 	paymentMethod, err = usecase.Repository.GetAll(request)
+
+	if paymentMethod == nil || len(*paymentMethod) <= 0 {
+		return nil, &proto.Error{
+			Code:    http.StatusInternalServerError,
+			Message: "no payment method found",
+		}
+	}
 	if err != nil {
 		return nil, &proto.Error{
 			Code:    http.StatusInternalServerError,
 			Message: err.Error(),
 		}
-	}
 
 	return paymentMethod, nil
 }
