@@ -24,7 +24,7 @@ import (
 // Repository is the interface of repositories.
 // As there are number of repositories can be used.
 type Usecase interface {
-	GetAll(request *proto.GetAllPaymentMethodsRequest) ([]*proto.PaymentMethod, *proto.Error)
+	GetAll(request *proto.GetAllPaymentMethodsRequest) (*[]*proto.PaymentMethod, *proto.Error)
 	GetOne(request *proto.GetOnePaymentMethodRequest) (*proto.PaymentMethod, *proto.Error)
 	CreateOne(paymentMethod *proto.PaymentMethod) (*proto.PaymentMethod, *proto.Error)
 	UpdateOne(paymentMethod *proto.PaymentMethod) (*proto.PaymentMethod, *proto.Error)

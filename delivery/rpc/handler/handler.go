@@ -47,7 +47,7 @@ func (handler *Handler) GetAllPaymentMethods(ctx context.Context, req *proto.Get
 		return errors.New(err.Message)
 	}
 
-	res.PaymentMethods = paymentMethods
+	res.PaymentMethods = *paymentMethods
 	res.Error = nil
 
 	return nil
@@ -100,4 +100,3 @@ func (handler *Handler) UpdateOnePaymentMethod(ctx context.Context, req *proto.P
 
 	return nil
 }
-

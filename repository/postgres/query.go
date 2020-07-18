@@ -37,7 +37,7 @@ func NewPostgres(db *sql.DB) *Postgres {
 }
 
 // GetAll will get all payment methods
-func (postgres *Postgres) GetAll(request *proto.GetAllPaymentMethodsRequest) ([]*proto.PaymentMethod, error) {
+func (postgres *Postgres) GetAll(request *proto.GetAllPaymentMethodsRequest) (*[]*proto.PaymentMethod, error) {
 	var id int32
 	var name, accountNumber, accountHolderName, status string
 	var paymentMethods []*proto.PaymentMethod
@@ -63,7 +63,7 @@ func (postgres *Postgres) GetAll(request *proto.GetAllPaymentMethodsRequest) ([]
 		paymentMethods = append(paymentMethods, paymentMethod)
 	}
 
-	return paymentMethods, err
+	return &paymentMethods, err
 }
 
 // GetOne will get a payment method by id

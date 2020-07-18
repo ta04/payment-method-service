@@ -19,7 +19,7 @@ func NewUsecase(repository repository.Repository) *Usecase {
 	}
 }
 
-func (usecase *Usecase) GetAll(request *proto.GetAllPaymentMethodsRequest) ([]*proto.PaymentMethod, *proto.Error) {
+func (usecase *Usecase) GetAll(request *proto.GetAllPaymentMethodsRequest) (*[]*proto.PaymentMethod, *proto.Error) {
 	if request == nil {
 		return nil, &proto.Error{
 			Code:    http.StatusBadRequest,
@@ -27,13 +27,13 @@ func (usecase *Usecase) GetAll(request *proto.GetAllPaymentMethodsRequest) ([]*p
 		}
 	}
 
-	var paymentMethod []*proto.PaymentMethod
+	var paymentMethod *[]*proto.PaymentMethod
 	var err error
 	paymentMethod, err = usecase.Repository.GetAll(request)
 	if err != nil {
 		return nil, &proto.Error{
 			Code:    http.StatusInternalServerError,
-			Message: http.StatusText(http.StatusInternalServerError),
+			Message: err.Error(),
 		}
 	}
 
@@ -52,7 +52,7 @@ func (usecase *Usecase) GetOne(request *proto.GetOnePaymentMethodRequest) (*prot
 	if err != nil {
 		return nil, &proto.Error{
 			Code:    http.StatusInternalServerError,
-			Message: http.StatusText(http.StatusInternalServerError),
+			Message: err.Error(),
 		}
 	}
 
@@ -60,11 +60,18 @@ func (usecase *Usecase) GetOne(request *proto.GetOnePaymentMethodRequest) (*prot
 }
 
 func (usecase *Usecase) CreateOne(paymentMethod *proto.PaymentMethod) (*proto.PaymentMethod, *proto.Error) {
+	if paymentMethod == nil {
+		return nil, &proto.Error{
+			Code:    http.StatusBadRequest,
+			Message: http.StatusText(http.StatusBadRequest),
+		}
+	}
+
 	paymentMethod, err := usecase.Repository.CreateOne(paymentMethod)
 	if err != nil {
 		return nil, &proto.Error{
 			Code:    http.StatusInternalServerError,
-			Message: http.StatusText(http.StatusInternalServerError),
+			Message: err.Error(),
 		}
 	}
 
@@ -72,11 +79,18 @@ func (usecase *Usecase) CreateOne(paymentMethod *proto.PaymentMethod) (*proto.Pa
 }
 
 func (usecase *Usecase) UpdateOne(paymentMethod *proto.PaymentMethod) (*proto.PaymentMethod, *proto.Error) {
+	if paymentMethod == nil {
+		return nil, &proto.Error{
+			Code:    http.StatusBadRequest,
+			Message: http.StatusText(http.StatusBadRequest),
+		}
+	}
+
 	paymentMethod, err := usecase.Repository.UpdateOne(paymentMethod)
 	if err != nil {
 		return nil, &proto.Error{
 			Code:    http.StatusInternalServerError,
-			Message: http.StatusText(http.StatusInternalServerError),
+			Message: err.Error(),
 		}
 	}
 

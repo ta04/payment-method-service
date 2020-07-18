@@ -24,7 +24,7 @@ import (
 // Repository is the interface of repositories.
 // As there are number of repositories can be used.
 type Repository interface {
-	GetAll(request *proto.GetAllPaymentMethodsRequest) ([]*proto.PaymentMethod, error)
+	GetAll(request *proto.GetAllPaymentMethodsRequest) (*[]*proto.PaymentMethod, error)
 	GetOne(request *proto.GetOnePaymentMethodRequest) (*proto.PaymentMethod, error)
 	CreateOne(paymentMethod *proto.PaymentMethod) (*proto.PaymentMethod, error)
 	UpdateOne(paymentMethod *proto.PaymentMethod) (*proto.PaymentMethod, error)
