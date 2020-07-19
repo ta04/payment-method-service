@@ -29,6 +29,9 @@ func (postgres *Postgres) CreateOne(paymentMethod *proto.PaymentMethod) (*proto.
 	query := fmt.Sprintf("INSERT INTO payment_methods (name, accountNumber, accountHolderName, status)"+
 		" VALUES ('%s', '%s', '%s', 'active')", paymentMethod.Name, paymentMethod.AccountNumber, paymentMethod.AccountHolderName)
 	_, err := postgres.DB.Exec(query)
+	if err != nil {
+		return nil, err
+	}
 
 	return paymentMethod, err
 }
@@ -38,6 +41,9 @@ func (postgres *Postgres) UpdateOne(paymentMethod *proto.PaymentMethod) (*proto.
 	query := fmt.Sprintf("UPDATE payment_methods SET name = '%s', accountNumber = '%s', accountHolderName = '%s', status = '%s'"+
 		" WHERE id = %d", paymentMethod.Name, paymentMethod.AccountNumber, paymentMethod.AccountHolderName, paymentMethod.Status, paymentMethod.Id)
 	res, err := postgres.DB.Exec(query)
+	if err != nil {
+		return nil, err
+	}
 
 	count, err := res.RowsAffected()
 	if err != nil {

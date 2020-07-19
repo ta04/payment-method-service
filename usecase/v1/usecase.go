@@ -27,6 +27,10 @@ func (usecase *Usecase) GetAll(request *proto.GetAllPaymentMethodsRequest) (*[]*
 		}
 	}
 
+	if request.Status == "" {
+		request.Status = "active"
+	}
+
 	var paymentMethod *[]*proto.PaymentMethod
 	var err error
 	paymentMethod, err = usecase.Repository.GetAll(request)
@@ -42,6 +46,7 @@ func (usecase *Usecase) GetAll(request *proto.GetAllPaymentMethodsRequest) (*[]*
 			Code:    http.StatusInternalServerError,
 			Message: err.Error(),
 		}
+	}
 
 	return paymentMethod, nil
 }
