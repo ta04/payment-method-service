@@ -26,7 +26,7 @@ import (
 
 // CreateOne will create a new payment method
 func (postgres *Postgres) CreateOne(paymentMethod *proto.PaymentMethod) (*proto.PaymentMethod, error) {
-	query := fmt.Sprintf("INSERT INTO payment_methods (name, accountNumber, accountHolderName, status)"+
+	query := fmt.Sprintf("INSERT INTO payment_methods (name, account_number, account_holder_name, status)"+
 		" VALUES ('%s', '%s', '%s', 'active')", paymentMethod.Name, paymentMethod.AccountNumber, paymentMethod.AccountHolderName)
 	_, err := postgres.DB.Exec(query)
 	if err != nil {
@@ -38,7 +38,7 @@ func (postgres *Postgres) CreateOne(paymentMethod *proto.PaymentMethod) (*proto.
 
 // UpdateOne will update a payment method
 func (postgres *Postgres) UpdateOne(paymentMethod *proto.PaymentMethod) (*proto.PaymentMethod, error) {
-	query := fmt.Sprintf("UPDATE payment_methods SET name = '%s', accountNumber = '%s', accountHolderName = '%s', status = '%s'"+
+	query := fmt.Sprintf("UPDATE payment_methods SET name = '%s', account_number = '%s', account_holder_name = '%s', status = '%s'"+
 		" WHERE id = %d", paymentMethod.Name, paymentMethod.AccountNumber, paymentMethod.AccountHolderName, paymentMethod.Status, paymentMethod.Id)
 	res, err := postgres.DB.Exec(query)
 	if err != nil {
