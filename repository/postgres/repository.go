@@ -18,6 +18,7 @@ Dear Programmers,
 package postgres
 
 import (
+	"errors"
 	"fmt"
 
 	proto "github.com/ta04/payment-method-service/model/proto"
@@ -36,8 +37,16 @@ func (postgres *Postgres) CreateOne(paymentMethod *proto.PaymentMethod) (*proto.
 func (postgres *Postgres) UpdateOne(paymentMethod *proto.PaymentMethod) (*proto.PaymentMethod, error) {
 	query := fmt.Sprintf("UPDATE payment_methods SET name = '%s', accountNumber = '%s', accountHolderName = '%s', status = '%s'"+
 		" WHERE id = %d", paymentMethod.Name, paymentMethod.AccountNumber, paymentMethod.AccountHolderName, paymentMethod.Status, paymentMethod.Id)
-	_, err := postgres.DB.Exec(query)
+	res, err := postgres.DB.Exec(query)
+
+	count, err := res.RowsAffected()
+	if err != nil {
+		return nil, err
+	}
+
+	if count <= 0 {
+		return nil, errors.New("sql: no rows found")
+	}
 
 	return paymentMethod, err
 }
-
